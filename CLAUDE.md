@@ -115,7 +115,7 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 - Container: max-width 1220px, `clamp(20px, 5vw, 40px)` side padding (`.section-inner`, `.header-inner`, `.hero-inner`, `.footer-inner`).
 - Sections: `clamp(56px, 7vw, 96px)` vertical padding; the trust band and marquee run tighter.
 - Radius: cards 12px, marquee tiles 10px, the why-badge pill 999px. **Buttons are sharp-cornered — no border-radius, ever.**
-- Breakpoints in use: 880/881px (nav collapse) and 1100px (squiggle + goose appear) — the only media queries besides reduced-motion. Grids stack fluidly via `auto-fit`/`minmax`, not breakpoints.
+- Breakpoints in use: 880/881px (nav collapse, subpage hero sweep hides) and 1100px (squiggle + goose appear, card-grid echelon engages) — the only media queries besides reduced-motion and print. Grids stack fluidly via `auto-fit`/`minmax`, not breakpoints.
 
 ### 4.4 Components and distinctive elements (reuse these; never "optimize away")
 
@@ -126,7 +126,8 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 | Section keyword | `.hl-dash` | Blue keyword with a dashed `--path` underline, for ONE keyword per section h2 (why/process/plans/FAQ on index). The h2-scale replacement for the block highlight. |
 | Flight path | `.hero-sweep`, `.hl-squiggle` + `.hl-goose` | Dashed `--path` stroke 2.2, dasharray 6 8, `vector-effect="non-scaling-stroke"`, ends at the goose. The sweep renders at all widths; the squiggle + goose only ≥1100px. |
 | Link underline | `[data-underline]` | Gradient grows 0%→100% on hover, 1.5px `--blue`. |
-| Why card | `.why-card` > `.why-bar` + body | Top bar 36px→100% on hover; card lifts 6px. |
+| Why card | `.why-card` > `.why-bar` + body | Top bar 36px→100% on hover; card lifts 6px. `.why-card-accent` = ONE blue card per grid max (red bar, `--bg` text) — the rhythm-breaker. Card grids step down left→right ≥1100px (goose-formation echelon, nth-child margins; plan-featured steps 24px). |
+| Section sweep | `.sec-sweep` | Dashed arc behind a section's CARD zone only (host section gets position:relative + z-indexed .section-inner) — never route dashes behind copy. On index why + plans. |
 | Why badge | `.why-badge` | White pill, goose overlapping the label. |
 | Nav dropdown | `.dd` family, `data-dd` | Pure CSS hover/focus-within. |
 | Mobile nav | `.nav-panel`, `data-nav-toggle` | Toggled by main.js below 880px. |

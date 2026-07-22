@@ -84,14 +84,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .js .reveal.shown{opacity:1;transform:none}
 /* premium motion: dashes flow along every flight path; geese drift */
 @keyframes dash-flow{to{stroke-dashoffset:-56}}
-.hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path{animation:dash-flow 5s linear infinite}
+.hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.sec-sweep path{animation:dash-flow 5s linear infinite}
 @keyframes goose-drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .step-path img,.hl-goose{animation:goose-drift 4.5s ease-in-out infinite}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .reveal{opacity:1;transform:none;transition:none}
-  .hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.step-path img,.hl-goose{animation:none}
+  .hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.sec-sweep path,.step-path img,.hl-goose{animation:none}
 }
 @media print{
   .js .reveal{opacity:1;transform:none;transition:none}
@@ -164,7 +164,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .hero-note svg{flex:none}
 
 /* ---------- why us ---------- */
-.why{background:var(--bg);border-top:1px solid var(--ink-a08)}
+.why{background:var(--bg);border-top:1px solid var(--ink-a08);position:relative;overflow:hidden}
+.why .section-inner{position:relative;z-index:1}
 .why-header{max-width:800px;margin:0 auto clamp(28px,4vw,44px);text-align:center}
 .why-badge-row{display:flex;justify-content:center;margin-bottom:18px}
 .why-badge{display:inline-flex;align-items:center;background:var(--surface);border:1px solid rgba(0,60,168,.25);border-radius:999px;padding:5px 10px 5px 16px;box-shadow:0 14px 30px -16px rgba(0,60,168,.3)}
@@ -183,6 +184,28 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .why-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.2rem;line-height:1.25;color:var(--ink)}
 .why-text{font-size:.95rem;line-height:1.6;color:var(--ink-a62)}
 .why-cta-row{display:flex;justify-content:center;margin-top:clamp(28px,4vw,40px)}
+
+/* accent card — ONE blue card per grid max, the rhythm-breaker */
+.why-card-accent{background:var(--blue);border-color:var(--blue)}
+.why-card-accent .why-bar{background:var(--red)}
+.why-card-accent .why-num{color:var(--bg-a60)}
+.why-card-accent .why-title{color:var(--bg)}
+.why-card-accent .why-text{color:var(--bg-a72)}
+.why-card-accent:hover{border-color:var(--blue)}
+
+/* goose-formation echelon: card grids step down left-to-right on wide screens */
+@media (min-width:1100px){
+  .why-grid .why-card:nth-child(2){margin-top:26px}
+  .why-grid .why-card:nth-child(3){margin-top:52px}
+  .why-grid .why-card:nth-child(4){margin-top:78px}
+  .plan-grid .plan-card-featured{margin-top:24px}
+}
+
+/* ambient dashed arc behind a section's card zone (sections add position:relative) */
+.sec-sweep{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.sec-sweep path{fill:none;stroke:var(--path);stroke-width:2.2}
+.plans{position:relative;overflow:hidden}
+.plans .section-inner{position:relative;z-index:1}
 
 /* ---------- trust band (federal-blue brand band with dashed sweep) ---------- */
 .trust{background:var(--blue);color:var(--bg);position:relative;overflow:hidden}
