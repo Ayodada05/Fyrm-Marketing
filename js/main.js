@@ -56,14 +56,23 @@
     var dragging = false;
     var startX = 0;
     var startScroll = 0;
+    // Float accumulator: some browsers (Safari) round scrollLeft readback to
+    // integers, so `scrollLeft += 0.6` can round back down and stall forever.
+    var pos = 0;
 
     function step() {
       var half = track.scrollWidth / 2;
-      if (!reduceMotion && !dragging && Date.now() > pausedUntil) {
-        marquee.scrollLeft += 0.6;
+      var auto = !reduceMotion && !dragging && Date.now() > pausedUntil;
+      if (auto) {
+        pos += 0.6;
+      } else {
+        pos = marquee.scrollLeft;
       }
-      if (half > 50 && marquee.scrollLeft >= half) {
-        marquee.scrollLeft -= half;
+      if (half > 50 && pos >= half) {
+        pos -= half;
+        marquee.scrollLeft = pos;
+      } else if (auto) {
+        marquee.scrollLeft = pos;
       }
       requestAnimationFrame(step);
     }

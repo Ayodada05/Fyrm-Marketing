@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           # Extend this list as pages ship (CLAUDE.md 6, step: update watchdog).
-          for p in index; do
+          for p in index how-it-works pricing platform partners faq about contact blog terms privacy pipeda security; do
             curl -sf --max-time 20 -o /dev/null "https://$DOMAIN/$p.html" || { echo "::error::$p.html not serving"; exit 1; }
           done
           echo "all pages OK"

@@ -12,25 +12,43 @@ Fyrm incorporates Canadian businesses and keeps them compliant automatically: na
 
 The identity: federal blue and red, geometric type, the lowercase "fyrm." wordmark, and the goose mascot with its dashed flight-path motif. The tone is confident and unbusy — paperwork is our problem, not the founder's.
 
-**This repo is the marketing site only.** It is static. The authenticated product will live at app.<domain>, built from a separate private repo. This repo will link into the app but never contain any of its code (see section 5.5). The domain is not yet decided; see the pending list in section 3.
+**This repo is the marketing site only.** It is static. The authenticated product will live at app.<domain>, built from a separate private repo the user will create. This repo will link into the app but never contain any of its code (see section 5.5). The repo is `Ayodada05/Fyrm-Marketing` on GitHub (local folder: `Fyrm-Marketing`); hosting is **Hostinger via its Git connection**, pointed at the `deploy/marketing` branch that CI builds on every push to main. The domain is not yet decided; see the pending list in section 3.
 
 ## 2. Hard rules (never break these)
 
 1. Canada only. We file with Corporations Canada and the 13 provincial & territorial registries. Never present US incorporation (Delaware, LLCs, etc.) as our service.
-2. **No price exists.** The pricing page, tiers, subscription model, and government-fee amounts are all undecided. Never invent a price, discount, percentage, or fee number — ask the user. (Deliberate divergence from Ownd's "exactly one price" rule; compliance is likely recurring.)
+2. **No real price exists — every displayed price is the $1 placeholder** (user decision, July 2026). The placeholder plan structure ("Incorporation" one-time / "Incorporation + Compliance" per year, "Recommended" flag — not "Most popular", which would be an invented stat pre-launch) appears on index.html and pricing.html with an explicit placeholder note; pricing FAQ explains the $1. Never write any other price, discount, percentage, or fee number anywhere — final plans and government-fee amounts are undecided; ask the user. (Deliberate divergence from Ownd's "exactly one price" rule; compliance is likely recurring.)
 3. The only stat that exists: **"Trusted by 600+ Canadian businesses."** No reviews, star ratings, savings figures, or testimonials exist. Never invent any.
 4. Canonical claims, approved for verbatim reuse: "never miss a filing again"; "Filed with Corporations Canada and all 13 provincial & territorial registries"; "Most founders finish in about twenty minutes and are incorporated within a day."
 5. Legal entity: Fyrm Technologies Inc. Every page's footer keeps: "Not a law firm; Fyrm does not provide legal advice."
 6. "Fyrm" is capitalized in prose. The few all-caps FYRM instances in index.html are deliberate emphasis — leave them, add no more. The lowercase wordmark only appears via the logo image.
 7. Em dashes are part of Fyrm's voice (a deliberate divergence from Ownd). The existing index.html copy is approved as-is, including "about twenty minutes / within a day".
+8. **English only** (decided July 2026). The footer "English · Français" toggle was removed; no bilingual commitment exists. Don't add French content or language switchers.
+9. No contact details exist. Emails, phones, and addresses are blocked on the domain decision; contact.html says inboxes open at public launch. Never invent one.
 
 ## 3. File map and organization
 
 ```
 /
-├── index.html            Homepage (hero, why-us, trust band, businesses marquee, footer)
-├── css/styles.css        THE design system, shared by all pages. CANONICAL here; the future app
-│                         repo will carry a synced copy (see 5.5 before renaming/removing anything).
+├── index.html            Homepage: hero, why-us, #process steps, $1 plan cards, trust band,
+│                         businesses marquee, platform teaser (CSS dashboard mock), FAQ teaser,
+│                         CTA band. Layout flow modeled on ownr.co; design system is Fyrm's own.
+├── how-it-works.html     The process end to end: 4 steps, timing band, what you get, FAQ, CTA.
+├── pricing.html          $1 placeholder plan cards, #fees, "every plan includes", pricing FAQ.
+│                         Plan-card CTAs → contact.html until the app exists.
+├── platform.html         Product tour: 3 feature splits with mocks (#minute-book, #compliance).
+├── partners.html         Partner program (pre-launch, honest "opens at launch"; CTA → contact).
+├── faq.html              Grouped FAQ, 16 items (#sole-prop-vs-corporation).
+├── about.html            Mission + values (#careers, #press). No team names or dates.
+├── contact.html          Pre-launch contact cards — NO emails exist yet (domain undecided).
+├── blog.html             Guides teaser; links only to real pages, no fake posts.
+├── terms.html · privacy.html · pipeda.html · security.html
+│                         Legal set: plain-language PRE-LAUNCH DRAFTS, flagged in-page; must be
+│                         reviewed (user/counsel) before launch. Prose pattern, no CTA band.
+├── css/styles.css        THE design system, shared by all pages (~20KB; no per-page CSS files
+│                         exist — every page composes shared components). CANONICAL here; the
+│                         future app repo will carry a synced copy (see 5.5 before renaming
+│                         or removing anything).
 ├── js/main.js            Shared: .js gate, reveal animation, mobile nav, marquee. Dependency-free
 │                         strict-mode IIFE, loaded from <head> with defer.
 ├── assets/               fyrm-logo.png (866x288, header + footer), goose-user.png (hero flight-path
@@ -53,14 +71,13 @@ Organization rules:
 - JS hooks are data-attributes (`data-nav-toggle`, `data-nav-panel`, `data-marquee`, `data-marquee-track`), never classes or ids — with one designed exception: the reveal system is class-based (`.reveal`/`.shown` + the `.js` gate on `<html>`). `data-underline` and `data-desktop-nav` are CSS-only attribute hooks. Style classes are flat kebab-case with a component prefix (`hero-`, `why-`, `mq-`, `footer-`, `dd-`, `btn-`).
 - The app will be a SEPARATE ORIGIN AND REPO, linked only via absolute URLs. No app code, SDK, API key, or fetch-on-load ever enters this repo.
 
-Link inventory (current dangling state — resolve as pages/sections ship, never silently):
+Link inventory — **all internal links resolve** (July 2026); keep it that way, never silently:
 
-- Resolving anchor: `#what-is-fyrm` (why-us section).
-- Dangling bare anchors, no target yet: `#process`, `#pricing` (desktop + mobile-panel Pricing links, Sign in, the nav CTA, hero CTA, why CTA — 6 total), `#partners`, `#platform` (footer ×3), `#faq` (footer ×2). When the header/footer are cloned to subpages, bare anchors must become `index.html#…`.
-- `href="#"` placeholders: Blog + Contact us (dropdown and mobile panel), the marquee CTA, footer About/Careers/Press/Contact and Terms/Privacy/PIPEDA/Security.
-- Links to pages that don't exist yet: `how-it-works.html` (hero CTA, footer ×2), `pricing.html` (footer ×2).
+- Public anchor surface (renames are breaking): index.html `#what-is-fyrm`, `#process`; pricing.html `#fees`; platform.html `#minute-book`, `#compliance`; faq.html `#sole-prop-vs-corporation`; about.html `#careers`, `#press`.
+- index.html uses bare `#what-is-fyrm`/`#process`; every subpage header uses `index.html#…` for those two. The subpage header/footer are canonical — copy them from any subpage byte-for-byte; the footer is byte-identical on ALL 13 pages (verified by script).
+- Placeholder targets until the app exists: "Sign in", the nav CTA, and all "Start incorporating" CTAs → pricing.html; pricing plan-card CTAs → contact.html. Swap to absolute `https://app.<domain>/...` URLs at app launch.
 
-Pending decisions (blocked on the user — do not guess): domain; hosting target; GitHub repo names; pricing model; the page roster (how-it-works, pricing, partners, about, blog, contact, legal set); whether footer "English · Français" is a real bilingual commitment.
+Pending decisions (blocked on the user — do not guess): domain (unblocks canonical/OG, robots.txt, sitemap.xml, health-check DOMAIN, contact emails, app URLs); final pricing and plan structure (replaces the $1 placeholders); legal-draft review before launch; whether blog.html gets real posts.
 
 ## 4. Design language
 
@@ -91,7 +108,7 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 - Body: **Hanken Grotesk** 400–700; the body default is weight 500.
 - Micro-labels only: **IBM Plex Mono** 400/500 (`.why-num`, `.footer-heading` — letterspaced tiny caps).
 - Google Fonts with `preconnect` and `display=swap` (already set). No new families or weights.
-- Scale comes from clamp(), already defined: hero h1 `clamp(2.9rem, 6.3vw, 5rem)`, section h2 `clamp(1.9rem, 3.6vw, 2.8rem)`, trust h2 `clamp(1.6rem, 3.2vw, 2.4rem)`. Heading letter-spacing -.015em (hero) / -.01em (sections). Reuse existing classes instead of inventing sizes.
+- Scale comes from clamp(), already defined: hero h1 `clamp(2.9rem, 6.3vw, 5rem)`, subpage h1 (`.ph-title`) `clamp(2.2rem, 4.6vw, 3.4rem)`, section h2 `clamp(1.9rem, 3.6vw, 2.8rem)`, trust h2 `clamp(1.6rem, 3.2vw, 2.4rem)`, plan price `clamp(2.4rem, 4.6vw, 3.2rem)`, feat title `clamp(1.6rem, 2.8vw, 2.2rem)`. Heading letter-spacing -.015em (hero) / -.01em (sections). Reuse existing classes instead of inventing sizes.
 
 ### 4.3 Layout and spacing
 
@@ -105,15 +122,23 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 | Element | Classes / hooks | Notes |
 |---|---|---|
 | Buttons | `.btn` + `.btn-blue`/`.btn-red`/`.btn-ghost`, sizes `.btn-nav`/`.btn-hero`/`.btn-marquee`, `.btn-lift` | Sharp corners, heavy colored drop shadows (`--shadow-btn-*`). |
-| Keyword highlight | `.hl-canadian` | Red text on `--blue` block, `box-decoration-break: clone`. |
+| Keyword highlight | `.hl-canadian` | Red text on `--blue` block, `box-decoration-break: clone`. Also used on ONE keyword in section h2s (why/process/plans/FAQ on index) — the signature move that keeps the scroll on-brand; never more than one per section. |
 | Flight path | `.hero-sweep`, `.hl-squiggle` + `.hl-goose` | Dashed `--path` stroke 2.2, dasharray 6 8, `vector-effect="non-scaling-stroke"`, ends at the goose. The sweep renders at all widths; the squiggle + goose only ≥1100px. |
 | Link underline | `[data-underline]` | Gradient grows 0%→100% on hover, 1.5px `--blue`. |
 | Why card | `.why-card` > `.why-bar` + body | Top bar 36px→100% on hover; card lifts 6px. |
 | Why badge | `.why-badge` | White pill, goose overlapping the label. |
 | Nav dropdown | `.dd` family, `data-dd` | Pure CSS hover/focus-within. |
 | Mobile nav | `.nav-panel`, `data-nav-toggle` | Toggled by main.js below 880px. |
-| Marquee | `.marquee` family, `data-marquee(-track)` | rAF auto-scroll 0.6px/frame, drag-to-scroll, 2500ms pause after interaction, reduced-motion aware, track duplicated once by main.js for the seamless loop. |
-| Trust band | `.trust` | The one stat + supporting line, Poppins 600 blue. |
+| Marquee | `.marquee` family, `data-marquee(-track)` | rAF auto-scroll 0.6px/frame via a float accumulator (Safari rounds scrollLeft readback — never revert to `scrollLeft +=`), drag-to-scroll, 2500ms pause after interaction, reduced-motion aware, track duplicated once by main.js. `.mq-tile-logo` puts white-on-transparent client logos on a `--blue` tile, `contain` fit. |
+| Trust band | `.trust` (+ `.trust-sweep`) | Federal-blue brand band: `--bg` text on `--blue`, red accent word, `--bg-a30` dashed sweep. The one stat on index; the canonical timing claim on how-it-works. |
+| Subpage hero | `.ph` family + optional `.ph-sweep` | Eyebrow (mono) / h1 / sub / ctas, dashed sweep, hero-style reveal stagger. Every subpage's h1 lives here. |
+| Section head | `.sec-head` (+ `.sec-band` border-top, optional `.sec-eyebrow`) | Centered mono-eyebrow + h2 + p; matches .why-header look. |
+| Flight-path strip | `.step-path` | Dashed `--path` curve ending at a small goose (goose-user.png), placed under a sec-head (index #process). |
+| Feature split | `.feat` family, `.check-list`, `.mock` | Copy + blue-check list beside a CSS-only dashboard mock (`.mock-row`/`.mock-ok`/`.mock-due`); swap DOM order to alternate sides. |
+| FAQ accordion | `.faq-list` > `.faq-item` (details/summary) | Pure CSS, chevron rotates on open. Used on faq, pricing, how-it-works, index. |
+| CTA band | `.cta-band` family, `.btn-invert`, `.btn-ghost-invert` | Blue closing band with `--bg-a30` dashed sweep; last section of every non-legal page. The sweep (and `.trust-sweep`) hugs the band's TOP edge so dashes never cross copy — keep it there. |
+| Plan cards | `.plan-grid` > `.plan-card(-featured)`, `.plan-flag`, `.plan-price`/`-per`/`-note`, `.plan-incl-grid` | $1 placeholder pricing (hard rule 2). On index + pricing. |
+| Legal prose | `.prose`, `.prose-updated` | Long-form h2/p/ul pattern for the legal set. |
 
 ### 4.5 Iconography
 
@@ -139,7 +164,7 @@ This site must hold up if millions of people hit it. The strategy is boring on p
 ### 5.1 Standing rules
 
 - Stay static. No framework, no build step, no client-side routing, no fetch-on-load, no external JS libraries. Every page must render meaningful content with JavaScript disabled.
-- Budgets: HTML under 35KB per page, per-page CSS under 8KB, total JS under 12KB. The SHARED styles.css is exempt from the per-page CSS budget (~13KB today; cached once for all pages).
+- Budgets: HTML under 35KB per page, per-page CSS under 8KB, total JS under 12KB. The SHARED styles.css is exempt from the per-page CSS budget (~20KB today; cached once for all pages). No per-page CSS files currently exist.
 - Scripts load from `<head>` with `defer`. main.js stays a dependency-free strict-mode IIFE.
 - Images: explicit `width`/`height` attributes always; `loading="lazy"` below the fold; `decoding="async"` everywhere. Compress before committing; prefer WebP for new photos. The logo and geese stay PNG (transparency).
 - Fonts: locked to the three families in 4.2.
@@ -175,7 +200,7 @@ Backend conventions for the FUTURE app repo (document here, implement nothing in
 3. One h1. Wrap the page in `<div id="fyrm-<page>">`. Build from the component inventory (4.4).
 4. Page-specific styles go in `css/<page>.css` with a fresh prefix, tokens only, under the 8KB budget.
 5. Add the page to sitemap.xml (once it exists) and the health-check page loop; link it from nav or footer only per the approved roster.
-6. Before you call it done: every link and anchor resolves across all pages, `node --check` passes on touched JS, images have width/height, one h1, budgets respected — and render the page at desktop and mobile widths and look at it.
+6. Before you call it done: every link and anchor resolves across all pages, `node --check` passes on touched JS, images have width/height, one h1, budgets respected — and render the page at desktop and mobile widths and look at it. Gotcha: macOS headless Chrome clamps `--window-size` below ~500px wide (fake right-edge clipping); use Playwright `--viewport-size="390,844"` for true mobile renders.
 7. Update this file: file map and link inventory (section 3) and anything else your page changed (see section 7).
 
 ## 7. Keeping this file current (mandatory)

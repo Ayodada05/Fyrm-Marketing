@@ -55,6 +55,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .site-footer a:focus-visible{outline-color:var(--bg)}
 
 #fyrm-home{overflow-x:hidden}
+.fyrm-page{overflow-x:hidden}
 
 /* ---------- shared ---------- */
 .section-inner{max-width:1220px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,5vw,40px)}
@@ -118,6 +119,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 @media (max-width:880px){
   [data-desktop-nav]{display:none !important}
   .nav-toggle{display:inline-flex}
+  .ph-sweep{display:none}
 }
 @media (min-width:881px){
   .nav-panel{display:none !important}
@@ -165,16 +167,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .why-bar{height:4px;width:36px;background:var(--blue);transition:width .6s var(--ease)}
 .why-card:hover .why-bar{width:100%}
 .why-card-body{padding:28px 24px 26px;display:flex;flex-direction:column;gap:10px;flex:1}
-.why-num{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.18em;color:var(--ink-a45)}
+.why-num{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.18em;color:var(--blue)}
 .why-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.2rem;line-height:1.25;color:var(--ink)}
 .why-text{font-size:.95rem;line-height:1.6;color:var(--ink-a62)}
 .why-cta-row{display:flex;justify-content:center;margin-top:clamp(28px,4vw,40px)}
 
-/* ---------- trust band ---------- */
-.trust{background:var(--bg);color:var(--blue)}
-.trust-inner{max-width:1220px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+/* ---------- trust band (federal-blue brand band with dashed sweep) ---------- */
+.trust{background:var(--blue);color:var(--bg);position:relative;overflow:hidden}
+.trust-sweep{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.trust-sweep path{fill:none;stroke:var(--bg-a30);stroke-width:2.2}
+.trust-inner{max-width:1220px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;position:relative;z-index:1}
 .trust h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1.1;letter-spacing:-.01em;margin:0}
-.trust p{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.25rem,2vw,1.7rem);line-height:1.45;color:var(--blue);margin:0;max-width:900px}
+.trust p{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.25rem,2vw,1.7rem);line-height:1.45;color:var(--bg-a82);margin:0;max-width:900px}
 .accent-red{color:var(--red)}
 
 /* ---------- marquee ---------- */
@@ -186,6 +190,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .mq-col{flex:none;display:flex;flex-direction:column;gap:16px}
 .mq-tile{flex:none;border-radius:10px;overflow:hidden}
 .mq-tile img{width:100%;height:100%;object-fit:cover}
+/* white-on-transparent client logos need a brand surface behind them */
+.mq-tile-logo{background:var(--blue)}
+.mq-tile-logo img{object-fit:contain;padding:20px}
 .mq-offset-0{margin-top:0}
 .mq-offset-20{margin-top:20px}
 .mq-offset-24{margin-top:24px}
@@ -196,7 +203,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 /* ---------- footer ---------- */
 .site-footer{background:var(--footer-bg);color:var(--bg)}
 .footer-inner{max-width:1220px;margin:0 auto;padding:clamp(56px,7vw,90px) clamp(20px,5vw,40px) 40px}
-.footer-logo{height:107px;width:257px;max-width:100%;object-fit:contain}
+/* the logo asset is blue/ink on transparency — render it white on the dark footer */
+.footer-logo{height:107px;width:257px;max-width:100%;object-fit:contain;filter:brightness(0) invert(1)}
 .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:40px 32px;padding-bottom:clamp(48px,6vw,72px)}
 .footer-blurb{grid-column:1/-1;max-width:560px;padding-top:20px}
 .footer-blurb p{color:var(--bg-a60);font-size:1.02rem;line-height:1.55;margin:0;max-width:440px}
@@ -205,6 +213,95 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .footer-grid ul a{color:var(--bg-a72);font-size:.92rem}
 .footer-bottom{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--bg-a12)}
 .footer-copy{color:var(--bg-a45);font-size:.82rem}
-.footer-lang{display:flex;align-items:center;gap:20px}
-.footer-lang span{color:var(--bg-a55);font-size:.82rem}
-.footer-lang .dot{color:var(--bg-a30)}
+
+/* ---------- subpage hero ---------- */
+.ph{position:relative;overflow:hidden;border-bottom:1px solid var(--ink-a08)}
+.ph-sweep{position:absolute;right:-2%;top:-12%;width:58%;height:124%;z-index:0;display:block;pointer-events:none}
+.ph-sweep path{fill:none;stroke:var(--path);stroke-width:2.2}
+.ph-inner{max-width:1220px;margin:0 auto;position:relative;z-index:1;padding:clamp(48px,6vw,84px) clamp(20px,5vw,40px)}
+.ph-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+.ph-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.06;letter-spacing:-.015em;margin:0;max-width:800px;text-wrap:balance}
+.ph-sub{font-size:1.12rem;line-height:1.62;color:var(--ink-a66);margin:18px 0 0;max-width:640px}
+.ph-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:30px}
+
+/* ---------- generic centered section head (subpages + new index sections) ---------- */
+.sec-band{border-top:1px solid var(--ink-a08)}
+.sec-head{max-width:800px;margin:0 auto clamp(28px,4vw,44px);text-align:center}
+.sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin:0 0 12px}
+.sec-head h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+.sec-head h2 .hl-canadian{padding:0 .14em}
+.sec-head p{font-family:'Poppins',sans-serif;font-weight:500;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6;color:var(--ink-a70);margin:0}
+
+/* ---------- flight-path strip (dashed path + goose, under a sec-head) ---------- */
+.step-path{position:relative;height:72px;margin:0 auto clamp(18px,3vw,28px);max-width:1000px}
+.step-path svg{position:absolute;left:0;top:0;width:calc(100% - 76px);height:100%}
+.step-path svg path{fill:none;stroke:var(--path);stroke-width:2.2}
+.step-path img{position:absolute;right:0;top:2px;width:64px;height:auto}
+
+/* ---------- feature split + dashboard mock ---------- */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:clamp(28px,5vw,64px);align-items:center}
+.feat-kicker{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+.feat-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.6rem,2.8vw,2.2rem);line-height:1.15;letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance}
+.feat-text{font-size:1.02rem;line-height:1.62;color:var(--ink-a66);margin:0 0 22px;max-width:520px}
+.feat-cta-row{margin-top:26px}
+.check-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.check-list li{display:flex;gap:10px;align-items:flex-start;font-size:.98rem;line-height:1.55;color:var(--ink-a70)}
+.check-list svg{flex:none;color:var(--blue);margin-top:4px}
+.mock{background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(15,17,22,.35)}
+.mock-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--ink-a08)}
+.mock-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:.95rem}
+.mock-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-a45)}
+.mock-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--ink-a07)}
+.mock-row:last-child{border-bottom:none}
+.mock-item{font-size:.92rem;color:var(--ink-a72)}
+.mock-ok{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.78rem;color:var(--blue)}
+.mock-due{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.78rem;color:var(--ink-a45)}
+
+/* ---------- faq accordion ---------- */
+.faq-list{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;transition:border-color .55s ease}
+.faq-item[open]{border-color:rgba(0,60,168,.45)}
+.faq-q{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:1.02rem;line-height:1.35}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q svg{flex:none;color:var(--ink-a45);transition:transform .3s var(--ease)}
+.faq-item[open] .faq-q svg{transform:rotate(180deg)}
+.faq-a{padding:0 22px 20px;font-size:.95rem;line-height:1.62;color:var(--ink-a62)}
+.faq-a p{margin:0 0 10px}
+.faq-a p:last-child{margin-bottom:0}
+.faq-a a{color:var(--blue)}
+
+/* ---------- cta band ---------- */
+.cta-band{background:var(--blue);color:var(--bg);position:relative;overflow:hidden}
+.cta-sweep{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.cta-sweep path{fill:none;stroke:var(--bg-a30);stroke-width:2.2}
+.cta-inner{max-width:1220px;margin:0 auto;padding:clamp(48px,6vw,84px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;position:relative;z-index:1}
+.cta-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0;color:var(--bg)}
+.cta-sub{margin:0;font-size:1.05rem;line-height:1.6;color:var(--bg-a72);max-width:560px;text-wrap:balance}
+.cta-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px}
+.btn-invert{background:var(--bg);color:var(--blue);font-family:'Poppins',sans-serif;font-size:1rem;padding:15px 28px;gap:10px}
+.btn-invert:hover{background:var(--surface)}
+.btn-ghost-invert{color:var(--bg);border-color:var(--bg-a30)}
+.btn-ghost-invert:hover{border-color:var(--bg-a60);background:var(--bg-a12)}
+
+/* ---------- plan cards (pricing page + home plans section) ---------- */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;max-width:900px;margin:0 auto}
+.plan-card{position:relative;background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;padding:34px 30px 30px;display:flex;flex-direction:column;gap:14px}
+.plan-card-featured{border-color:rgba(0,60,168,.45)}
+.plan-flag{position:absolute;top:-13px;left:28px;display:inline-flex;align-items:center;background:var(--blue);color:var(--bg);border-radius:999px;padding:5px 14px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.plan-name{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.2rem;line-height:1.25;margin:0}
+.plan-price{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(2.4rem,4.6vw,3.2rem);line-height:1;color:var(--blue);display:flex;align-items:baseline;gap:10px}
+.plan-per{font-family:'Hanken Grotesk',system-ui,sans-serif;font-weight:500;font-size:.92rem;color:var(--ink-a50)}
+.plan-desc{font-size:.95rem;line-height:1.6;color:var(--ink-a62);margin:0}
+.plan-cta-row{margin-top:auto;padding-top:12px}
+.plan-note{max-width:900px;margin:clamp(18px,3vw,26px) auto 0;text-align:center;font-size:.88rem;line-height:1.5;color:var(--ink-a50)}
+.plan-incl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px 40px;max-width:800px;margin:0 auto}
+
+/* ---------- long-form prose (legal set) ---------- */
+.prose{max-width:760px}
+.prose-updated{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-a45);margin:0 0 28px}
+.prose h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.35rem;line-height:1.3;letter-spacing:-.01em;margin:36px 0 12px}
+.prose p,.prose li{font-size:.98rem;line-height:1.7;color:var(--ink-a72)}
+.prose p{margin:0 0 14px}
+.prose ul{margin:0 0 14px;padding-left:22px}
+.prose li{margin-bottom:8px}
+.prose a{color:var(--blue)}
