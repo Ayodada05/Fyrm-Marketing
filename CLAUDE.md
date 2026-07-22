@@ -132,13 +132,14 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 | Nav dropdown | `.dd` family, `data-dd` | Pure CSS hover/focus-within. |
 | Mobile nav | `.nav-panel`, `data-nav-toggle` | Toggled by main.js below 880px. |
 | Marquee | `.marquee` family, `data-marquee(-track)` | rAF auto-scroll 0.6px/frame via a float accumulator (Safari rounds scrollLeft readback — never revert to `scrollLeft +=`), drag-to-scroll, 2500ms pause after interaction, reduced-motion aware, track duplicated once by main.js. `.mq-tile-logo` puts white-on-transparent client logos on a `--blue` tile, `contain` fit. |
-| Trust band | `.trust` (+ `.trust-sweep`) | Federal-blue brand band: `--bg` text on `--blue`, red accent word, `--bg-a30` dashed sweep. The one stat on index; the canonical timing claim on how-it-works. |
+| Trust band | `.trust` + `.band-curve` | Federal-blue brand band: `--bg` text on `--blue`, red accent word, curved wave edges (top + bottom). The one stat on index; the canonical timing claim on how-it-works. |
+| Band curve | `.band-curve` | bg-colored wave svg carving a curved edge into a blue band (fill="currentColor") — softens light→blue transitions. Top of every CTA band; top + bottom of trust bands. |
 | Subpage hero | `.ph` family + optional `.ph-sweep` | Eyebrow (mono) / h1 / sub / ctas, dashed sweep, hero-style reveal stagger. Every subpage's h1 lives here. |
 | Section head | `.sec-head` (+ `.sec-band` border-top, optional `.sec-eyebrow`) | Centered mono-eyebrow + h2 + p; matches .why-header look. |
 | Flight-path strip | `.step-path` | Dashed `--path` curve ending at a small goose (goose-user.png), placed under a sec-head (index #process). |
 | Feature split | `.feat` family, `.check-list`, `.mock` | Copy + blue-check list beside a CSS-only dashboard mock (`.mock-row`/`.mock-ok`/`.mock-due`); swap DOM order to alternate sides. |
 | FAQ accordion | `.faq-list` > `.faq-item` (details/summary) | Pure CSS, chevron rotates on open. Used on faq, pricing, how-it-works, index. |
-| CTA band | `.cta-band` family, `.btn-invert`, `.btn-ghost-invert` | Blue closing band with `--bg-a30` dashed sweep; last section of every non-legal page. The sweep (and `.trust-sweep`) hugs the band's TOP edge so dashes never cross copy — keep it there. |
+| CTA band | `.cta-band` family, `.btn-invert`, `.btn-ghost-invert` | Blue closing band, curved top edge via `.band-curve`; last section of every non-legal page. (The former band-top dash sweeps were replaced by the curves.) |
 | Plan cards | `.plan-grid` > `.plan-card(-featured)`, `.plan-flag`, `.plan-price`/`-per`/`-note`, `.plan-incl-grid` | $1 placeholder pricing (hard rule 2). On index + pricing. |
 | Legal prose | `.prose`, `.prose-updated` | Long-form h2/p/ul pattern for the legal set. |
 

@@ -84,14 +84,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .js .reveal.shown{opacity:1;transform:none}
 /* premium motion: dashes flow along every flight path; geese drift */
 @keyframes dash-flow{to{stroke-dashoffset:-56}}
-.hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.sec-sweep path{animation:dash-flow 5s linear infinite}
+.hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.sec-sweep path{animation:dash-flow 5s linear infinite}
 @keyframes goose-drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .step-path img,.hl-goose{animation:goose-drift 4.5s ease-in-out infinite}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .reveal{opacity:1;transform:none;transition:none}
-  .hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.sec-sweep path,.step-path img,.hl-goose{animation:none}
+  .hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.sec-sweep path,.step-path img,.hl-goose{animation:none}
 }
 @media print{
   .js .reveal{opacity:1;transform:none;transition:none}
@@ -165,7 +165,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 
 /* ---------- why us ---------- */
 .why{background:var(--bg);border-top:1px solid var(--ink-a08);position:relative;overflow:hidden}
-.why .section-inner{position:relative;z-index:1}
+.why .section-inner{position:relative;z-index:1;padding-top:clamp(44px,5vw,68px);padding-bottom:clamp(44px,5vw,68px)}
 .why-header{max-width:800px;margin:0 auto clamp(28px,4vw,44px);text-align:center}
 .why-badge-row{display:flex;justify-content:center;margin-bottom:18px}
 .why-badge{display:inline-flex;align-items:center;background:var(--surface);border:1px solid rgba(0,60,168,.25);border-radius:999px;padding:5px 10px 5px 16px;box-shadow:0 14px 30px -16px rgba(0,60,168,.3)}
@@ -174,7 +174,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .why-header h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 16px}
 .why-header p{font-family:'Poppins',sans-serif;font-weight:500;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6;color:var(--ink-a70);margin:0}
 
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;align-items:start}
 .why-card{background:var(--surface);border:1px solid var(--ink-a10);display:flex;flex-direction:column;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px var(--ink-a02),0 10px 26px -18px var(--ink-a14);transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s ease}
 .why-card:hover{transform:translateY(-6px);box-shadow:0 24px 44px -20px rgba(0,60,168,.35);border-color:rgba(0,60,168,.45)}
 .why-bar{height:4px;width:36px;background:var(--blue);transition:width .6s var(--ease)}
@@ -207,11 +207,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .plans{position:relative;overflow:hidden}
 .plans .section-inner{position:relative;z-index:1}
 
-/* ---------- trust band (federal-blue brand band with dashed sweep) ---------- */
+/* ---------- trust band (federal-blue brand band, curved edges) ---------- */
 .trust{background:var(--blue);color:var(--bg);position:relative;overflow:hidden}
-.trust-sweep{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.trust-sweep path{fill:none;stroke:var(--bg-a30);stroke-width:2.2}
-.trust-inner{max-width:1220px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;position:relative;z-index:1}
+/* curved band edge: bg-colored wave carved into a blue band — softens the color transition */
+.band-curve{display:block;width:100%;height:clamp(28px,4vw,52px);color:var(--bg)}
+.trust-inner{max-width:1220px;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;position:relative;z-index:1}
 .trust h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1.1;letter-spacing:-.01em;margin:0}
 .trust p{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.25rem,2vw,1.7rem);line-height:1.45;color:var(--bg-a82);margin:0;max-width:900px}
 .accent-red{color:var(--red)}
@@ -307,11 +307,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .faq-a p:last-child{margin-bottom:0}
 .faq-a a{color:var(--blue)}
 
-/* ---------- cta band ---------- */
+/* ---------- cta band (curved top edge via .band-curve) ---------- */
 .cta-band{background:var(--blue);color:var(--bg);position:relative;overflow:hidden}
-.cta-sweep{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.cta-sweep path{fill:none;stroke:var(--bg-a30);stroke-width:2.2}
-.cta-inner{max-width:1220px;margin:0 auto;padding:clamp(48px,6vw,84px) clamp(20px,5vw,40px);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;position:relative;z-index:1}
+.cta-inner{max-width:1220px;margin:0 auto;padding:clamp(36px,5vw,68px) clamp(20px,5vw,40px) clamp(48px,6vw,84px);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;position:relative;z-index:1}
 .cta-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0;color:var(--bg)}
 .cta-sub{margin:0;font-size:1.05rem;line-height:1.6;color:var(--bg-a72);max-width:560px;text-wrap:balance}
 .cta-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px}
