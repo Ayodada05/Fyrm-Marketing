@@ -1,0 +1,80 @@
+# Scheduled watchdog for the LIVE Fyrm marketing site.
+#
+# ── NOT LIVE YET ────────────────────────────────────────────────────────────
+# The cron below ships COMMENTED OUT: GitHub enables scheduled workflows by
+# default on push, and until the site is live every run would fail red and
+# email the owner hourly. To enable at go-live: set DOMAIN below to the real
+# domain, add every published page to the page loop, and uncomment the
+# schedule block. Until then only manual runs (workflow_dispatch) exist.
+# ────────────────────────────────────────────────────────────────────────────
+#
+# If any check fails, the workflow fails and GitHub emails the repo owner —
+# that email IS the alert. Run it manually any time from the Actions tab.
+#
+# What it catches: origin down, pages 404ing, deploy serving stale/tampered
+# files, TLS renewal failures. If the CDN/proxy ever rewrites files (e.g.
+# Cloudflare CSS/HTML minification), the styles.css byte-compare below will
+# false-positive; compare against what the host actually serves before
+# enabling such features.
+name: Health check (marketing)
+
+on:
+  # Uncomment at go-live (see the NOT LIVE YET note above).
+  # Hourly, off-peak minute (minute-0 crons get delayed most). Hourly — NOT
+  # every 30 minutes — because the free 2,000 Actions-minutes/month pool is
+  # shared across all of this account's repos (Ownd and Ownd-Marketing run
+  # watchdogs too) and each run bills a rounded-up minute.
+  # schedule:
+  #   - cron: "41 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # TODO before enabling: set to the real marketing domain (no scheme).
+  DOMAIN: TODO-set-domain.example
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: deploy/marketing
+          path: expected
+
+      - name: All pages serve
+        run: |
+          set -euo pipefail
+          # Extend this list as pages ship (CLAUDE.md 6, step: update watchdog).
+          for p in index; do
+            curl -sf --max-time 20 -o /dev/null "https://$DOMAIN/$p.html" || { echo "::error::$p.html not serving"; exit 1; }
+          done
+          echo "all pages OK"
+
+      - name: Content markers intact
+        run: |
+          set -euo pipefail
+          # Capture to a variable BEFORE grep: piping curl straight into
+          # `grep -q` races under pipefail — grep matches and closes the pipe,
+          # curl gets SIGPIPE (141), and the pipeline "fails" despite the match.
+          home=$(curl -sf --max-time 20 "https://$DOMAIN/")
+          echo "$home" | grep -q "Fyrm" || { echo "::error::homepage missing brand marker — wrong or tampered content"; exit 1; }
+          echo "$home" | grep -q "Corporations Canada" || { echo "::error::homepage missing the Corporations Canada hero note — wrong or tampered content"; exit 1; }
+          echo "markers OK"
+
+      - name: Deployed stylesheet matches the deploy branch
+        run: |
+          set -euo pipefail
+          curl -sf --max-time 20 "https://$DOMAIN/css/styles.css" -o live-styles.css
+          cmp -s live-styles.css expected/css/styles.css || { echo "::error::styles.css differs from deploy/marketing — stale deploy, tampering, or CDN minification was enabled"; exit 1; }
+          echo "integrity OK"
+
+      - name: TLS certificate not near expiry
+        run: |
+          set -euo pipefail
+          end=$(echo | openssl s_client -servername "$DOMAIN" -connect "$DOMAIN:443" 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
+          days=$(( ( $(date -d "$end" +%s) - $(date +%s) ) / 86400 ))
+          echo "$DOMAIN: $days days left"
+          [ "$days" -ge 14 ] || { echo "::error::certificate expires in $days days — renewal is failing"; exit 1; }

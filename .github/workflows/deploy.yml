@@ -1,0 +1,44 @@
+# deploy/marketing is a BUILD ARTIFACT, never edit it by hand.
+name: Build deploy branch
+
+# Every push to main assembles the hosting payload and force-pushes it to a
+# single-commit orphan branch:
+#   deploy/marketing → connect this branch to the marketing domain in the
+#   host's panel (for Hostinger: hPanel → Advanced → Git), once the domain
+#   and host are decided.
+#
+# The site is fully static: no variables, no secrets, no backend dependency.
+# The future app (app.<domain>) will deploy from its own repo and is not
+# touched by anything here.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# cancel-in-progress stays false: cancelling a run mid-publish could leave the
+# deploy branch stale. Runs queue.
+concurrency:
+  group: deploy-branch
+  cancel-in-progress: false
+
+jobs:
+  marketing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build marketing payload
+        run: bash scripts/build-deploy.sh
+
+      - name: Publish deploy/marketing
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/marketing
+          publish_branch: deploy/marketing
+          force_orphan: true
+          full_commit_message: "Deploy marketing from ${{ github.sha }}"
