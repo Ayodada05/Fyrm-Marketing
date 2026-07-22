@@ -64,6 +64,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 [data-underline]:hover{background-size:100% 1.5px}
 
 .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;transition:background .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+.btn svg{transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
 .btn-blue{background:var(--blue);color:var(--bg)}
 .btn-blue:hover{background:var(--blue-dark)}
 .btn-red{background:var(--red);color:var(--bg);font-family:'Poppins',sans-serif;font-size:1.05rem;padding:16px 34px;gap:10px;box-shadow:var(--shadow-btn-red)}
@@ -80,8 +82,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .reveal{opacity:1;transform:none}
 .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .95s var(--ease) var(--d,0s),transform .95s var(--ease) var(--d,0s)}
 .js .reveal.shown{opacity:1;transform:none}
+/* premium motion: dashes flow along every flight path; geese drift */
+@keyframes dash-flow{to{stroke-dashoffset:-56}}
+.hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path{animation:dash-flow 5s linear infinite}
+@keyframes goose-drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.step-path img,.hl-goose{animation:goose-drift 4.5s ease-in-out infinite}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none;transition:none}
+  .hero-sweep path,.hl-squiggle path,.ph-sweep path,.step-path svg path,.cta-sweep path,.trust-sweep path,.step-path img,.hl-goose{animation:none}
+}
+@media print{
   .js .reveal{opacity:1;transform:none;transition:none}
 }
 
@@ -162,7 +174,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .why-header p{font-family:'Poppins',sans-serif;font-weight:500;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6;color:var(--ink-a70);margin:0}
 
 .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px}
-.why-card{background:var(--surface);border:1px solid var(--ink-a10);display:flex;flex-direction:column;border-radius:12px;overflow:hidden;transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s ease}
+.why-card{background:var(--surface);border:1px solid var(--ink-a10);display:flex;flex-direction:column;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px var(--ink-a02),0 10px 26px -18px var(--ink-a14);transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s ease}
 .why-card:hover{transform:translateY(-6px);box-shadow:0 24px 44px -20px rgba(0,60,168,.35);border-color:rgba(0,60,168,.45)}
 .why-bar{height:4px;width:36px;background:var(--blue);transition:width .6s var(--ease)}
 .why-card:hover .why-bar{width:100%}
@@ -229,7 +241,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 .sec-head{max-width:800px;margin:0 auto clamp(28px,4vw,44px);text-align:center}
 .sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin:0 0 12px}
 .sec-head h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
-.sec-head h2 .hl-canadian{padding:0 .14em}
+/* section-heading keyword: blue with a dashed flight-path underline (the block
+   highlight .hl-canadian stays hero-only — too heavy at h2 scale) */
+.hl-dash{color:var(--blue);text-decoration-line:underline;text-decoration-style:dashed;text-decoration-color:var(--path);text-decoration-thickness:2px;text-underline-offset:.16em}
 .sec-head p{font-family:'Poppins',sans-serif;font-weight:500;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6;color:var(--ink-a70);margin:0}
 
 /* ---------- flight-path strip (dashed path + goose, under a sec-head) ---------- */
@@ -259,8 +273,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 
 /* ---------- faq accordion ---------- */
 .faq-list{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-.faq-item{background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;transition:border-color .55s ease}
-.faq-item[open]{border-color:rgba(0,60,168,.45)}
+.faq-item{background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;box-shadow:0 1px 2px var(--ink-a02),0 10px 26px -18px var(--ink-a14);transition:border-color .55s ease}
+.faq-item:hover,.faq-item[open]{border-color:rgba(0,60,168,.45)}
 .faq-q{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:1.02rem;line-height:1.35}
 .faq-q::-webkit-details-marker{display:none}
 .faq-q svg{flex:none;color:var(--ink-a45);transition:transform .3s var(--ease)}
@@ -285,7 +299,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offse
 
 /* ---------- plan cards (pricing page + home plans section) ---------- */
 .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;max-width:900px;margin:0 auto}
-.plan-card{position:relative;background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;padding:34px 30px 30px;display:flex;flex-direction:column;gap:14px}
+.plan-card{position:relative;background:var(--surface);border:1px solid var(--ink-a10);border-radius:12px;padding:34px 30px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 2px var(--ink-a02),0 10px 26px -18px var(--ink-a14);transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s ease}
+.plan-card:hover{transform:translateY(-4px);box-shadow:0 24px 44px -20px rgba(0,60,168,.35)}
 .plan-card-featured{border-color:rgba(0,60,168,.45)}
 .plan-flag{position:absolute;top:-13px;left:28px;display:inline-flex;align-items:center;background:var(--blue);color:var(--bg);border-radius:999px;padding:5px 14px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
 .plan-name{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.2rem;line-height:1.25;margin:0}

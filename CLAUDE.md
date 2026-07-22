@@ -49,8 +49,8 @@ The identity: federal blue and red, geometric type, the lowercase "fyrm." wordma
 │                         exist — every page composes shared components). CANONICAL here; the
 │                         future app repo will carry a synced copy (see 5.5 before renaming
 │                         or removing anything).
-├── js/main.js            Shared: .js gate, reveal animation, mobile nav, marquee. Dependency-free
-│                         strict-mode IIFE, loaded from <head> with defer.
+├── js/main.js            Shared: .js gate, auto-stamped reveal cascade, mobile nav, marquee.
+│                         Dependency-free strict-mode IIFE, loaded from <head> with defer.
 ├── assets/               fyrm-logo.png (866x288, header + footer), goose-user.png (hero flight-path
 │                         goose), goose-why.png (why-badge goose), fyrm-biz-*.webp + fyrm-client-1.webp
 │                         (marquee photos), favicon.svg/.ico, favicon-32.png, apple-touch-icon.png
@@ -122,7 +122,8 @@ Blessed quirks, leave them alone: the one-off blue-tinted decorations still writ
 | Element | Classes / hooks | Notes |
 |---|---|---|
 | Buttons | `.btn` + `.btn-blue`/`.btn-red`/`.btn-ghost`, sizes `.btn-nav`/`.btn-hero`/`.btn-marquee`, `.btn-lift` | Sharp corners, heavy colored drop shadows (`--shadow-btn-*`). |
-| Keyword highlight | `.hl-canadian` | Red text on `--blue` block, `box-decoration-break: clone`. Also used on ONE keyword in section h2s (why/process/plans/FAQ on index) — the signature move that keeps the scroll on-brand; never more than one per section. |
+| Keyword highlight | `.hl-canadian` | Red text on `--blue` block, `box-decoration-break: clone`. HERO-ONLY — the block was tried on section h2s and rejected as too heavy (user, July 2026). |
+| Section keyword | `.hl-dash` | Blue keyword with a dashed `--path` underline, for ONE keyword per section h2 (why/process/plans/FAQ on index). The h2-scale replacement for the block highlight. |
 | Flight path | `.hero-sweep`, `.hl-squiggle` + `.hl-goose` | Dashed `--path` stroke 2.2, dasharray 6 8, `vector-effect="non-scaling-stroke"`, ends at the goose. The sweep renders at all widths; the squiggle + goose only ≥1100px. |
 | Link underline | `[data-underline]` | Gradient grows 0%→100% on hover, 1.5px `--blue`. |
 | Why card | `.why-card` > `.why-bar` + body | Top bar 36px→100% on hover; card lifts 6px. |
@@ -146,10 +147,11 @@ Inline SVG only, `fill="none" stroke="currentColor"`, stroke-width 1.4–1.8, si
 
 ### 4.6 Motion
 
-- Scroll reveal: `class="reveal"` (+ optional `style="--d:.16s"` stagger). main.js stamps `.js` on `<html>` as its first statement; CSS hides `.reveal` only under `.js`, so everything renders if JS is off, blocked, or broken. **Never gate above-the-fold content, especially the h1, on JS any other way.**
-- Reveals: opacity + 24px rise, .95s `--ease`. Hovers: buttons lift 2px (`.btn-lift`), why-cards 6px. Every transition uses `--ease` (one blessed exception: `.why-card`'s border-color fade uses plain `ease`).
-- `prefers-reduced-motion`: reveals render instantly, marquee auto-scroll stops (drag still works).
-- Nothing else. No parallax, no autoplay video, no scroll-jacking.
+- Scroll reveal: `class="reveal"` (+ optional `style="--d:.16s"` stagger). main.js stamps `.js` on `<html>` as its first statement; CSS hides `.reveal` only under `.js`, so everything renders if JS is off, blocked, or broken. **Never gate above-the-fold content, especially the h1, on JS any other way.** Hand-written reveal classes live only in heroes; main.js `stampReveals()` auto-adds `.reveal` (+ `--d` stagger inside why-/plan-/faq-/feat grids) to shared components on every page — new components join the cascade by being added to its selector list, not by markup.
+- Reveals: opacity + 24px rise, .95s `--ease`. Hovers: buttons lift 2px (`.btn-lift`) and their arrow svg slides 3px, why-cards 6px, plan-cards 4px. Cards carry a soft resting shadow (a02/a14). Every transition uses `--ease` (one blessed exception: `.why-card`'s border-color fade uses plain `ease`).
+- Ambient motion: every dashed flight path flows via `dash-flow` (stroke-dashoffset, 5s linear) and the geese drift via `goose-drift` (4.5s) — hero sweep, squiggle, ph/cta/trust sweeps, step-path.
+- `prefers-reduced-motion`: reveals render instantly, marquee auto-scroll stops (drag still works), dash-flow/goose-drift stop. `@media print` forces reveals visible.
+- Nothing else. No parallax, no autoplay video, no scroll-jacking. Note for renders: full-page screenshots capture below-fold reveals un-fired — use a tall `--viewport-size` + `--wait-for-timeout` instead.
 
 ### 4.7 Voice and copy
 

@@ -8,6 +8,23 @@
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- auto-reveal shared components (scroll cascade on every page) ---------- */
+  function stampReveals() {
+    var els = document.querySelectorAll('.sec-head, .step-path, .why-card, .plan-card, .faq-item, .feat-body, .feat-panel, .why-cta-row, .plan-note, .plan-incl-grid, .trust-inner, .cta-inner, .prose');
+    els.forEach(function (el) {
+      if (el.classList.contains('reveal')) return;
+      el.classList.add('reveal');
+      var parent = el.parentElement;
+      if (!parent) return;
+      var grid = parent.classList.contains('why-grid') || parent.classList.contains('plan-grid') ||
+                 parent.classList.contains('faq-list') || parent.classList.contains('feat');
+      if (grid) {
+        var idx = Array.prototype.indexOf.call(parent.children, el);
+        el.style.setProperty('--d', (idx * 0.08) + 's');
+      }
+    });
+  }
+
   /* ---------- scroll reveal ---------- */
   function initReveal() {
     var els = document.querySelectorAll('.reveal');
@@ -104,6 +121,7 @@
   }
 
   function boot() {
+    stampReveals();
     initReveal();
     initNav();
     initMarquee();
