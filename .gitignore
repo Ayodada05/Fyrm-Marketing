@@ -1,0 +1,6 @@
+# macOS junk
+.DS_Store
+._*
+
+# Build output (assembled by scripts/build-deploy.sh, never committed)
+dist/
