@@ -1,6 +1,11 @@
 (function () {
   'use strict';
 
+  // Stamp .js on <html> FIRST: css only hides .reveal content under .js, so
+  // the page stays fully visible when this file never runs (JS off, blocked,
+  // or failed to load). Never gate above-the-fold content on JS any other way.
+  document.documentElement.classList.add('js');
+
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- scroll reveal ---------- */
